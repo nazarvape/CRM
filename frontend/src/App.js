@@ -24,8 +24,15 @@ import { toast } from 'sonner';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-// Status color mapping
-const getStatusColor = (status) => {
+// Status color functions
+const getStatusColor = (status, actionStatusTypes = []) => {
+  // For action statuses, try to get color from database
+  const actionStatus = actionStatusTypes.find(ast => ast.key === status);
+  if (actionStatus) {
+    return actionStatus.color;
+  }
+  
+  // Fallback colors
   const colorMap = {
     'made_order': '#22C55E', // зелений
     'completed_survey': '#8B5CF6', // фіолетовий
@@ -37,6 +44,11 @@ const getStatusColor = (status) => {
     'debt': '#EF4444' // червоний для боргу
   };
   return colorMap[status] || '#6B7280';
+};
+
+const getClientStatusColor = (status, statusTypes = []) => {
+  const statusType = statusTypes.find(st => st.name === status);
+  return statusType ? statusType.color : '#3B82F6';
 };
 
 // Status names in Ukrainian
