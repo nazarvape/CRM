@@ -234,6 +234,13 @@ async def create_client(input: ClientCreate):
     await db.clients.insert_one(client_data)
     return client_obj
 
+@api_router.get("/clients/{client_id}", response_model=Client)
+async def get_client(client_id: str):
+    client = await db.clients.find_one({"id": client_id})
+    if not client:
+        raise HTTPException(status_code=404, detail="Client not found")
+    return Client(**parse_from_mongo(client))
+
 @api_router.put("/clients/{client_id}", response_model=Client)
 async def update_client(client_id: str, input: ClientUpdate):
     client_dict = {k: v for k, v in input.dict().items() if v is not None}
