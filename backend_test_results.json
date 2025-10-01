@@ -1,0 +1,225 @@
+{
+  "timestamp": "2025-10-01T11:16:08.807361",
+  "base_url": "https://customerbase.preview.emergentagent.com",
+  "total_tests": 36,
+  "passed_tests": 34,
+  "success_rate": 94.44444444444444,
+  "test_details": [
+    {
+      "test_name": "Root API Endpoint",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.649536"
+    },
+    {
+      "test_name": "Get Client Status Types",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.687007"
+    },
+    {
+      "test_name": "Create Client Status Type",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.728281"
+    },
+    {
+      "test_name": "Update Client Status Type",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.770692"
+    },
+    {
+      "test_name": "Get Status Types After Update",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.810437"
+    },
+    {
+      "test_name": "Verify Status Update",
+      "success": true,
+      "details": "Updated status found: True",
+      "timestamp": "2025-10-01T11:16:07.811121"
+    },
+    {
+      "test_name": "Delete Client Status Type",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.852596"
+    },
+    {
+      "test_name": "Get Status Types After Delete",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.897775"
+    },
+    {
+      "test_name": "Verify Status Deletion",
+      "success": true,
+      "details": "Count: 11 -> 11",
+      "timestamp": "2025-10-01T11:16:07.898538"
+    },
+    {
+      "test_name": "Get Clients",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.936328"
+    },
+    {
+      "test_name": "Create Client",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:07.974391"
+    },
+    {
+      "test_name": "Update Client",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.057876"
+    },
+    {
+      "test_name": "Filter Clients - Made Order",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.094724"
+    },
+    {
+      "test_name": "Client Filtering Works",
+      "success": true,
+      "details": "Found 1 clients with made_order=true",
+      "timestamp": "2025-10-01T11:16:08.095520"
+    },
+    {
+      "test_name": "Delete Client",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.135295"
+    },
+    {
+      "test_name": "Get Clients After Delete",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.178767"
+    },
+    {
+      "test_name": "Verify Client Deletion",
+      "success": true,
+      "details": "Count: 88 -> 88",
+      "timestamp": "2025-10-01T11:16:08.179800"
+    },
+    {
+      "test_name": "Get Client Statistics",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.217026"
+    },
+    {
+      "test_name": "Statistics Structure",
+      "success": true,
+      "details": "All required fields present",
+      "timestamp": "2025-10-01T11:16:08.217724"
+    },
+    {
+      "test_name": "Statistics Data Types",
+      "success": true,
+      "details": "All fields are integers",
+      "timestamp": "2025-10-01T11:16:08.217747"
+    },
+    {
+      "test_name": "Get Daily Reports",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.292385"
+    },
+    {
+      "test_name": "Create Daily Report",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.340139"
+    },
+    {
+      "test_name": "Create Duplicate Report",
+      "success": true,
+      "details": "Status: 400, Expected: 400",
+      "timestamp": "2025-10-01T11:16:08.375239"
+    },
+    {
+      "test_name": "Duplicate Report Prevention",
+      "success": true,
+      "details": "Correctly prevented duplicate",
+      "timestamp": "2025-10-01T11:16:08.375812"
+    },
+    {
+      "test_name": "Update Daily Report",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.411350"
+    },
+    {
+      "test_name": "Delete Daily Report",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.447308"
+    },
+    {
+      "test_name": "Get Reports After Delete",
+      "success": true,
+      "details": "Status: 200, Expected: 200",
+      "timestamp": "2025-10-01T11:16:08.483507"
+    },
+    {
+      "test_name": "Verify Report Deletion",
+      "success": true,
+      "details": "Count: 0 -> 0",
+      "timestamp": "2025-10-01T11:16:08.484156"
+    },
+    {
+      "test_name": "Get Non-existent Client",
+      "success": false,
+      "details": "Status: 405, Expected: 404, Response: {'detail': 'Method Not Allowed'}",
+      "timestamp": "2025-10-01T11:16:08.521465"
+    },
+    {
+      "test_name": "Update Non-existent Client",
+      "success": true,
+      "details": "Status: 404, Expected: 404",
+      "timestamp": "2025-10-01T11:16:08.557358"
+    },
+    {
+      "test_name": "Delete Non-existent Client",
+      "success": true,
+      "details": "Status: 404, Expected: 404",
+      "timestamp": "2025-10-01T11:16:08.633000"
+    },
+    {
+      "test_name": "Get Non-existent Status Type",
+      "success": false,
+      "details": "Status: 405, Expected: 404, Response: {'detail': 'Method Not Allowed'}",
+      "timestamp": "2025-10-01T11:16:08.670677"
+    },
+    {
+      "test_name": "Update Non-existent Status Type",
+      "success": true,
+      "details": "Status: 404, Expected: 404",
+      "timestamp": "2025-10-01T11:16:08.705145"
+    },
+    {
+      "test_name": "Delete Non-existent Status Type",
+      "success": true,
+      "details": "Status: 404, Expected: 404",
+      "timestamp": "2025-10-01T11:16:08.739300"
+    },
+    {
+      "test_name": "Update Non-existent Report",
+      "success": true,
+      "details": "Status: 404, Expected: 404",
+      "timestamp": "2025-10-01T11:16:08.771111"
+    },
+    {
+      "test_name": "Delete Non-existent Report",
+      "success": true,
+      "details": "Status: 404, Expected: 404",
+      "timestamp": "2025-10-01T11:16:08.806686"
+    }
+  ]
+}
