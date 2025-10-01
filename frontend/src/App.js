@@ -486,7 +486,12 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
     if (client) {
       setFormData({
         ...client,
-        last_contact_date: client.last_contact_date ? new Date(client.last_contact_date) : null
+        last_contact_date: client.last_contact_date ? new Date(client.last_contact_date) : null,
+        expected_order_sets: client.expected_order_sets || '',
+        expected_order_amount: client.expected_order_amount || '',
+        sets_ordered_this_month: client.sets_ordered_this_month || '',
+        amount_this_month: client.amount_this_month || '',
+        debt: client.debt || ''
       });
       setOpen(true);
     }
