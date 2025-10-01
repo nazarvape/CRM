@@ -860,6 +860,98 @@ const ActionStatusManagement = ({ actionStatusTypes, onSave }) => {
   );
 };
 
+// Comment Cell Component
+const CommentCell = ({ client, onUpdate }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [comment, setComment] = useState(client.comment || '');
+  const [saving, setSaving] = useState(false);
+
+  const handleSave = async () => {
+    if (saving) return;
+    
+    setSaving(true);
+    try {
+      await axios.patch(`${API}/clients/${client.id}/comment`, { comment });
+      toast.success('Коментар оновлено');
+      setIsEditing(false);
+      if (onUpdate) onUpdate();
+    } catch (error) {
+      console.error('Error updating comment:', error);
+      toast.error('Помилка оновлення коментаря');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleCancel = () => {
+    setComment(client.comment || '');
+    setIsEditing(false);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+      handleSave();
+    } else if (e.key === 'Escape') {
+      handleCancel();
+    }
+  };
+
+  if (isEditing) {
+    return (
+      <div className="min-w-48 max-w-64">
+        <Textarea
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          onKeyDown={handleKeyPress}
+          placeholder="Введіть коментар..."
+          className="text-xs min-h-16 resize-none"
+          data-testid={`comment-input-${client.id}`}
+          autoFocus
+        />
+        <div className="flex gap-1 mt-1">
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleSave}
+            disabled={saving}
+            className="h-6 px-2 text-xs"
+            data-testid={`save-comment-${client.id}`}
+          >
+            {saving ? '...' : '💾'}
+          </Button>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleCancel}
+            className="h-6 px-2 text-xs"
+            data-testid={`cancel-comment-${client.id}`}
+          >
+            ✕
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div 
+      className="min-w-48 max-w-64 cursor-pointer hover:bg-gray-50 p-1 rounded text-xs"
+      onClick={() => setIsEditing(true)}
+      data-testid={`comment-display-${client.id}`}
+    >
+      {client.comment ? (
+        <div className="text-gray-700 line-clamp-3 whitespace-pre-wrap">
+          {client.comment}
+        </div>
+      ) : (
+        <div className="text-gray-400 italic">
+          Клікніть для додавання коментаря...
+        </div>
+      )}
+    </div>
+  );
+};
+
 // Status Type Management Component
 const StatusTypeManagement = ({ 
   statusTypes, 
