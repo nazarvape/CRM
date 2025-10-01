@@ -125,6 +125,7 @@ const ClientsPage = () => {
       
       setClients(clientsRes.data);
       setStatusTypes(statusTypesRes.data);
+      setActionStatusTypes(actionStatusTypesRes.data);
       setStatistics(statsRes.data);
     } catch (error) {
       console.error('Error loading data:', error);
