@@ -39,21 +39,10 @@ api_router = APIRouter(prefix="/api")
 
 # Helper functions for authentication
 def verify_password(plain_password, hashed_password):
-    # Ensure password is not longer than 72 bytes for bcrypt
-    if isinstance(plain_password, str):
-        password_bytes = plain_password.encode('utf-8')
-    if len(password_bytes) > 72:
-        password_bytes = password_bytes[:72]
-        plain_password = password_bytes.decode('utf-8')
-    return pwd_context.verify(plain_password, hashed_password)
+    return hashlib.sha256(plain_password.encode()).hexdigest() == hashed_password
 
 def get_password_hash(password):
-    # Ensure password is not longer than 72 bytes for bcrypt
-    if isinstance(password, str):
-        password = password.encode('utf-8')
-    if len(password) > 72:
-        password = password[:72]
-    return pwd_context.hash(password.decode('utf-8') if isinstance(password, bytes) else password)
+    return hashlib.sha256(password.encode()).hexdigest()
 
 def create_access_token(data: dict):
     to_encode = data.copy()
