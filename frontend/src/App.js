@@ -441,7 +441,7 @@ const ClientsPage = () => {
 };
 
 // Client Dialog Component
-const ClientDialog = ({ client, statusTypes, onSave, onCancel, trigger }) => {
+const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel, trigger }) => {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     first_name: '',
