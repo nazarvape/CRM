@@ -456,8 +456,8 @@ async def get_client_summary():
     return stats
 
 @api_router.get("/clients", response_model=List[Client])
-async def get_clients(status_filter: Optional[str] = None):
-    query = {}
+async def get_clients(status_filter: Optional[str] = None, current_user: User = Depends(get_current_user)):
+    query = {"user_id": current_user.id}
     if status_filter:
         # Filter by action status
         if status_filter == "made_order":
