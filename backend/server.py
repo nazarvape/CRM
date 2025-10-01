@@ -297,7 +297,7 @@ async def login(user_login: UserLogin):
     if not verify_password(user_login.password, user_obj.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password"
+            detail="Невірний email або пароль"
         )
     
     # Create access token
