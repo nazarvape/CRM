@@ -714,6 +714,147 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
   );
 };
 
+// Action Status Management Component
+const ActionStatusManagement = ({ actionStatusTypes, onSave }) => {
+  const [open, setOpen] = useState(false);
+  const [newActionStatus, setNewActionStatus] = useState({ name: '', key: '', color: '#3B82F6' });
+  const [editingActionStatus, setEditingActionStatus] = useState(null);
+
+  const handleSave = async () => {
+    try {
+      if (editingActionStatus) {
+        await axios.put(`${API}/action-status-types/${editingActionStatus.id}`, newActionStatus);
+        toast.success('Статус дії оновлено');
+      } else {
+        await axios.post(`${API}/action-status-types`, newActionStatus);
+        toast.success('Статус дії додано');
+      }
+      setNewActionStatus({ name: '', key: '', color: '#3B82F6' });
+      setEditingActionStatus(null);
+      setOpen(false);
+      onSave();
+    } catch (error) {
+      console.error('Error saving action status:', error);
+      toast.error('Помилка збереження статусу дії');
+    }
+  };
+
+  const handleDelete = async (statusId) => {
+    if (window.confirm('Ви впевнені, що хочете видалити цей статус дії?')) {
+      try {
+        await axios.delete(`${API}/action-status-types/${statusId}`);
+        toast.success('Статус дії видалено');
+        onSave();
+      } catch (error) {
+        console.error('Error deleting action status:', error);
+        toast.error('Помилка видалення статусу дії');
+      }
+    }
+  };
+
+  const startEdit = (actionStatus) => {
+    setNewActionStatus({ name: actionStatus.name, key: actionStatus.key, color: actionStatus.color });
+    setEditingActionStatus(actionStatus);
+    setOpen(true);
+  };
+
+  const cancelEdit = () => {
+    setNewActionStatus({ name: '', key: '', color: '#3B82F6' });
+    setEditingActionStatus(null);
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" data-testid="manage-action-status-types-button">
+          Кольори статусів дій
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Управління кольорами статусів дій</DialogTitle>
+        </DialogHeader>
+        
+        <div className="space-y-4">
+          {/* Add/Edit form */}
+          <div className="border rounded-lg p-4 space-y-4">
+            <h3 className="font-medium">
+              {editingActionStatus ? 'Редагувати статус дії' : 'Додати новий статус дії'}
+            </h3>
+            <div className="grid grid-cols-3 gap-2">
+              <Input
+                placeholder="Назва статусу"
+                value={newActionStatus.name}
+                onChange={(e) => setNewActionStatus({...newActionStatus, name: e.target.value})}
+                data-testid="action-status-name"
+              />
+              <Input
+                placeholder="Ключ (made_order)"
+                value={newActionStatus.key}
+                onChange={(e) => setNewActionStatus({...newActionStatus, key: e.target.value})}
+                data-testid="action-status-key"
+              />
+              <input
+                type="color"
+                value={newActionStatus.color}
+                onChange={(e) => setNewActionStatus({...newActionStatus, color: e.target.value})}
+                className="w-full h-10 border border-gray-300 rounded-md cursor-pointer"
+                data-testid="action-status-color"
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button onClick={handleSave} disabled={!newActionStatus.name.trim() || !newActionStatus.key.trim()}>
+                {editingActionStatus ? 'Оновити' : 'Додати'}
+              </Button>
+              {editingActionStatus && (
+                <Button variant="outline" onClick={cancelEdit}>
+                  Скасувати
+                </Button>
+              )}
+            </div>
+          </div>
+
+          {/* Action status types list */}
+          <div className="space-y-2">
+            <h3 className="font-medium">Існуючі статуси дій</h3>
+            {actionStatusTypes.map((actionStatus) => (
+              <div key={actionStatus.id} className="flex items-center justify-between p-2 border rounded">
+                <div className="flex items-center gap-2">
+                  <div 
+                    className="w-4 h-4 rounded" 
+                    style={{ backgroundColor: actionStatus.color }}
+                  />
+                  <span>{actionStatus.name}</span>
+                  <span className="text-xs text-gray-500">({actionStatus.key})</span>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => startEdit(actionStatus)}
+                    data-testid={`edit-action-status-${actionStatus.id}`}
+                  >
+                    <Edit className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDelete(actionStatus.id)}
+                    data-testid={`delete-action-status-${actionStatus.id}`}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 // Status Type Management Component
 const StatusTypeManagement = ({ 
   statusTypes, 
