@@ -238,54 +238,54 @@ const ClientsPage = () => {
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('planning_order')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('planning_order', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('planning_order') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('planning_order', actionStatusTypes) }}>
               {statistics.planning_order || 0}
             </div>
             <div className="text-xs text-gray-500">Планують замовлення</div>
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('need_callback')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('need_callback', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('need_callback') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('need_callback', actionStatusTypes) }}>
               {statistics.need_callback || 0}
             </div>
             <div className="text-xs text-gray-500">Передзвонити</div>
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('completed_survey')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('completed_survey', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('completed_survey') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('completed_survey', actionStatusTypes) }}>
               {statistics.completed_survey || 0}
             </div>
             <div className="text-xs text-gray-500">Пройшли опитування</div>
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('notified_about_promotion')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('notified_about_promotion', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('notified_about_promotion') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('notified_about_promotion', actionStatusTypes) }}>
               {statistics.notified_about_promotion || 0}
             </div>
             <div className="text-xs text-gray-500">Сповіщені про акцію</div>
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('has_additional_questions')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('has_additional_questions', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('has_additional_questions') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('has_additional_questions', actionStatusTypes) }}>
               {statistics.has_additional_questions || 0}
             </div>
             <div className="text-xs text-gray-500">Мають питання</div>
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('not_answering')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('not_answering', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('not_answering') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('not_answering', actionStatusTypes) }}>
               {statistics.not_answering || 0}
             </div>
             <div className="text-xs text-gray-500">Не відповідають</div>
