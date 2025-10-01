@@ -1225,6 +1225,131 @@ const ActionStatusManagement = ({ actionStatusTypes, onSave }) => {
   );
 };
 
+// Action Status Popover Component
+const ActionStatusPopover = ({ client, actionStatusTypes, onUpdate }) => {
+  const [open, setOpen] = useState(false);
+  const [statusState, setStatusState] = useState(client.action_status);
+  const [saving, setSaving] = useState(false);
+
+  // Update local state when client changes
+  useEffect(() => {
+    setStatusState(client.action_status);
+  }, [client.action_status]);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await axios.put(`${API}/clients/${client.id}`, {
+        action_status: statusState
+      });
+      toast.success('Статуси дій оновлено');
+      setOpen(false);
+      if (onUpdate) onUpdate();
+    } catch (error) {
+      console.error('Error updating action status:', error);
+      toast.error('Помилка оновлення статусів');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleStatusChange = (statusKey, checked) => {
+    setStatusState(prev => ({
+      ...prev,
+      [statusKey]: checked
+    }));
+  };
+
+  const activeStatuses = Object.entries(statusState).filter(([key, value]) => value);
+  const hasStatuses = activeStatuses.length > 0;
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="h-auto min-h-8 py-1 px-2 flex flex-wrap gap-1 justify-start"
+          data-testid={`action-status-trigger-${client.id}`}
+        >
+          {hasStatuses ? (
+            <div className="flex flex-wrap gap-1">
+              {activeStatuses.map(([key, value]) => (
+                <Badge 
+                  key={key}
+                  style={{ backgroundColor: getStatusColor(key, actionStatusTypes), color: 'white' }}
+                  className="text-xs py-0 px-1 h-5"
+                >
+                  {getStatusName(key)}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <span className="text-gray-400 text-xs">Натисніть для вибору</span>
+          )}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-80" data-testid={`action-status-popover-${client.id}`}>
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h4 className="font-medium leading-none">
+              Статуси дій для {client.first_name} {client.last_name}
+            </h4>
+            <p className="text-sm text-muted-foreground">
+              Оберіть статуси дій для цього клієнта
+            </p>
+          </div>
+          
+          <div className="space-y-3">
+            {Object.entries(statusState).map(([key, value]) => (
+              <div key={key} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`${client.id}-${key}`}
+                  checked={value}
+                  onCheckedChange={(checked) => handleStatusChange(key, checked)}
+                  data-testid={`status-checkbox-${key}-${client.id}`}
+                />
+                <Label 
+                  htmlFor={`${client.id}-${key}`}
+                  className="text-sm cursor-pointer flex items-center gap-2"
+                >
+                  <div 
+                    className="w-3 h-3 rounded"
+                    style={{ backgroundColor: getStatusColor(key, actionStatusTypes) }}
+                  />
+                  {getStatusName(key)}
+                </Label>
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex justify-between pt-2 border-t">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => {
+                setStatusState(client.action_status);
+                setOpen(false);
+              }}
+              data-testid={`cancel-status-${client.id}`}
+            >
+              Скасувати
+            </Button>
+            <Button 
+              size="sm" 
+              onClick={handleSave}
+              disabled={saving}
+              data-testid={`save-status-${client.id}`}
+            >
+              {saving ? 'Збереження...' : 'Зберегти'}
+            </Button>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 // Comment Cell Component
 const CommentCell = ({ client, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
