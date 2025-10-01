@@ -281,23 +281,6 @@ async def delete_client(client_id: str):
         raise HTTPException(status_code=404, detail="Client not found")
     return {"message": "Client deleted"}
 
-@api_router.get("/clients/statistics")
-async def get_client_statistics():
-    total_clients = await db.clients.count_documents({})
-    
-    stats = {
-        "total_clients": total_clients,
-        "made_order": await db.clients.count_documents({"action_status.made_order": True}),
-        "completed_survey": await db.clients.count_documents({"action_status.completed_survey": True}),
-        "notified_about_promotion": await db.clients.count_documents({"action_status.notified_about_promotion": True}),
-        "has_additional_questions": await db.clients.count_documents({"action_status.has_additional_questions": True}),
-        "need_callback": await db.clients.count_documents({"action_status.need_callback": True}),
-        "not_answering": await db.clients.count_documents({"action_status.not_answering": True}),
-        "planning_order": await db.clients.count_documents({"action_status.planning_order": True}),
-    }
-    
-    return stats
-
 # Daily Reports Routes
 @api_router.get("/daily-reports", response_model=List[DailyReport])
 async def get_daily_reports():
