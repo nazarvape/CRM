@@ -512,7 +512,7 @@ const ClientDialog = ({ client, statusTypes, onSave, onCancel, trigger }) => {
             <div>
               <Label htmlFor="client_status">Статус клієнта</Label>
               <Select
-                value={formData.client_status}
+                value={formData.client_status || undefined}
                 onValueChange={(value) => setFormData({...formData, client_status: value})}
               >
                 <SelectTrigger data-testid="client-status-select">
