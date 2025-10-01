@@ -327,6 +327,19 @@ const Navigation = () => {
               </Link>
             </div>
           </div>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-600">
+              Привіт, {user?.full_name || user?.email}
+            </span>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={logout}
+              data-testid="logout-button"
+            >
+              Вийти
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
