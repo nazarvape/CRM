@@ -363,7 +363,13 @@ const ClientsPage = () => {
                     </TableCell>
                     <TableCell>{client.phone}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">
+                      <Badge 
+                        variant="outline" 
+                        style={{ 
+                          borderColor: getClientStatusColor(client.client_status, statusTypes),
+                          color: getClientStatusColor(client.client_status, statusTypes)
+                        }}
+                      >
                         {client.client_status}
                       </Badge>
                     </TableCell>
