@@ -691,7 +691,7 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
                   <Label 
                     htmlFor={`action_${key}`} 
                     className="text-sm"
-                    style={{ color: value ? getStatusColor(key) : 'inherit' }}
+                    style={{ color: value ? getStatusColor(key, actionStatusTypes) : 'inherit' }}
                   >
                     {getStatusName(key)}
                   </Label>
