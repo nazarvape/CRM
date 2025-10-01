@@ -203,6 +203,23 @@ async def delete_client_status_type(status_id: str):
     return {"message": "Status type deleted"}
 
 # Clients Routes
+@api_router.get("/clients/statistics")
+async def get_client_statistics():
+    total_clients = await db.clients.count_documents({})
+    
+    stats = {
+        "total_clients": total_clients,
+        "made_order": await db.clients.count_documents({"action_status.made_order": True}),
+        "completed_survey": await db.clients.count_documents({"action_status.completed_survey": True}),
+        "notified_about_promotion": await db.clients.count_documents({"action_status.notified_about_promotion": True}),
+        "has_additional_questions": await db.clients.count_documents({"action_status.has_additional_questions": True}),
+        "need_callback": await db.clients.count_documents({"action_status.need_callback": True}),
+        "not_answering": await db.clients.count_documents({"action_status.not_answering": True}),
+        "planning_order": await db.clients.count_documents({"action_status.planning_order": True}),
+    }
+    
+    return stats
+
 @api_router.get("/clients", response_model=List[Client])
 async def get_clients(status_filter: Optional[str] = None):
     query = {}
