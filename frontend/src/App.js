@@ -171,9 +171,128 @@ const getStatusName = (status) => {
   return nameMap[status] || status;
 };
 
+// Auth Pages
+const AuthPage = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    full_name: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { login, register } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    const result = isLogin 
+      ? await login(formData.email, formData.password)
+      : await register(formData.email, formData.password, formData.full_name);
+
+    if (!result.success) {
+      setError(result.error);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle className="text-2xl text-center">
+            {isLogin ? 'Вхід в систему' : 'Реєстрація'}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {!isLogin && (
+              <div>
+                <Label htmlFor="full_name">Повне ім'я</Label>
+                <Input
+                  id="full_name"
+                  type="text"
+                  value={formData.full_name}
+                  onChange={(e) => setFormData({...formData, full_name: e.target.value})}
+                  required={!isLogin}
+                  data-testid="auth-full-name"
+                />
+              </div>
+            )}
+            <div>
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                required
+                data-testid="auth-email"
+              />
+            </div>
+            <div>
+              <Label htmlFor="password">Пароль</Label>
+              <Input
+                id="password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                required
+                data-testid="auth-password"
+              />
+            </div>
+            {error && (
+              <div className="text-red-600 text-sm">{error}</div>
+            )}
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={loading}
+              data-testid="auth-submit"
+            >
+              {loading ? 'Обробка...' : (isLogin ? 'Увійти' : 'Зареєструватися')}
+            </Button>
+          </form>
+          <div className="text-center mt-4">
+            <Button
+              variant="link"
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setError('');
+                setFormData({ email: '', password: '', full_name: '' });
+              }}
+              data-testid="auth-toggle"
+            >
+              {isLogin ? 'Потрібна реєстрація?' : 'Вже маєте акаунт?'}
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+// Protected Route component
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+  
+  return isAuthenticated ? children : <Navigate to="/auth" replace />;
+};
+
 // Navigation component
 const Navigation = () => {
   const location = useLocation();
+  const { user, logout } = useAuth();
   
   return (
     <nav className="bg-white shadow-sm border-b border-gray-200 mb-8">
