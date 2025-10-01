@@ -116,7 +116,7 @@ const ClientsPage = () => {
     setLoading(true);
     try {
       const [clientsRes, statusTypesRes, statsRes] = await Promise.all([
-        axios.get(`${API}/clients${filterStatus ? `?status_filter=${filterStatus}` : ''}`),
+        axios.get(`${API}/clients${filterStatus && filterStatus !== 'all' ? `?status_filter=${filterStatus}` : ''}`),
         axios.get(`${API}/client-status-types`),
         axios.get(`${API}/clients/statistics`)
       ]);
