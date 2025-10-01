@@ -193,7 +193,10 @@ const AuthPage = () => {
       ? await login(formData.email, formData.password)
       : await register(formData.email, formData.password, formData.full_name);
 
-    if (!result.success) {
+    if (result.success) {
+      // Успішний логін - перенаправляємо на головну сторінку
+      navigate('/', { replace: true });
+    } else {
       setError(result.error);
     }
     setLoading(false);
