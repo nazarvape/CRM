@@ -33,8 +33,8 @@ async def create_test_user():
     
     # Create test user
     test_user_id = str(uuid.uuid4())
-    password = "test123"
-    hashed_password = pwd_context.hash(password)
+    password = "123456"
+    hashed_password = pwd_context.hash(password.encode('utf-8')[:72])
     
     user_data = {
         "id": test_user_id,
