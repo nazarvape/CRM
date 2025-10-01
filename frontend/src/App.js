@@ -711,22 +711,11 @@ const ClientsPage = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {Object.entries(client.action_status).map(([key, value]) => {
-                          if (value) {
-                            return (
-                              <Badge 
-                                key={key} 
-                                style={{ backgroundColor: getStatusColor(key, actionStatusTypes), color: 'white' }}
-                                className="text-xs"
-                              >
-                                {getStatusName(key)}
-                              </Badge>
-                            );
-                          }
-                          return null;
-                        })}
-                      </div>
+                      <ActionStatusPopover 
+                        client={client} 
+                        actionStatusTypes={actionStatusTypes}
+                        onUpdate={loadData}
+                      />
                     </TableCell>
                     <TableCell>
                       {client.last_contact_date ? 
