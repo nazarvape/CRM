@@ -58,6 +58,18 @@ class ClientStatusTypeCreate(BaseModel):
     name: str
     color: Optional[str] = "#3B82F6"
 
+class ActionStatusType(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    key: str  # made_order, completed_survey, etc.
+    color: str = "#3B82F6"
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class ActionStatusTypeCreate(BaseModel):
+    name: str
+    key: str
+    color: Optional[str] = "#3B82F6"
+
 class ActionStatus(BaseModel):
     made_order: bool = False
     completed_survey: bool = False
