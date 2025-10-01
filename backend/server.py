@@ -115,6 +115,7 @@ class ActionStatus(BaseModel):
 
 class Client(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str  # Owner of this client
     first_name: str
     last_name: str
     phone: Optional[str] = ""
