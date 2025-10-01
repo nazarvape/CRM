@@ -267,6 +267,44 @@ async def get_client_statistics():
     
     return stats
 
+@api_router.get("/clients/summary")
+async def get_client_summary():
+    # Aggregate pipeline to calculate totals
+    pipeline = [
+        {
+            "$group": {
+                "_id": None,
+                "total_expected_sets": {"$sum": "$expected_order_sets"},
+                "total_expected_amount": {"$sum": "$expected_order_amount"},
+                "total_ordered_sets": {"$sum": "$sets_ordered_this_month"},
+                "total_ordered_amount": {"$sum": "$amount_this_month"},
+                "total_debt": {"$sum": "$debt"}
+            }
+        }
+    ]
+    
+    result = await db.clients.aggregate(pipeline).to_list(1)
+    
+    if result:
+        summary = result[0]
+        return {
+            "total_expected_sets": summary.get("total_expected_sets", 0),
+            "total_expected_amount": round(summary.get("total_expected_amount", 0.0), 2),
+            "total_ordered_sets": summary.get("total_ordered_sets", 0),
+            "total_ordered_amount": round(summary.get("total_ordered_amount", 0.0), 2),
+            "total_debt": round(summary.get("total_debt", 0.0), 2)
+        }
+    else:
+        return {
+            "total_expected_sets": 0,
+            "total_expected_amount": 0.0,
+            "total_ordered_sets": 0,
+            "total_ordered_amount": 0.0,
+            "total_debt": 0.0
+        }
+    
+    return stats
+
 @api_router.get("/clients", response_model=List[Client])
 async def get_clients(status_filter: Optional[str] = None):
     query = {}
