@@ -656,10 +656,15 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
               <Label htmlFor="debt">Борг (₴)</Label>
               <Input
                 id="debt"
-                type="number"
-                step="0.01"
-                value={formData.debt}
-                onChange={(e) => setFormData({...formData, debt: parseFloat(e.target.value) || 0})}
+                type="text"
+                value={formData.debt || ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || /^\d*\.?\d*$/.test(value)) {
+                    setFormData({...formData, debt: value === '' ? 0 : parseFloat(value) || 0});
+                  }
+                }}
+                placeholder="0.00"
                 data-testid="client-debt"
               />
             </div>
