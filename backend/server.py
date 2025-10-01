@@ -262,6 +262,7 @@ async def get_client_statistics():
         "need_callback": await db.clients.count_documents({"action_status.need_callback": True}),
         "not_answering": await db.clients.count_documents({"action_status.not_answering": True}),
         "planning_order": await db.clients.count_documents({"action_status.planning_order": True}),
+        "has_debt": await db.clients.count_documents({"debt": {"$gt": 0}}),
     }
     
     return stats
