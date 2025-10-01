@@ -1790,17 +1790,26 @@ const ReportDialog = ({ report, onSave, onCancel, trigger }) => {
 // Main App Component
 function App() {
   return (
-    <div className="App min-h-screen bg-gray-50">
-      <Router>
-        <Navigation />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+    <AuthProvider>
+      <div className="App min-h-screen bg-gray-50">
+        <Router>
           <Routes>
-            <Route path="/" element={<ClientsPage />} />
-            <Route path="/daily-reports" element={<DailyReportsPage />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/*" element={
+              <ProtectedRoute>
+                <Navigation />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+                  <Routes>
+                    <Route path="/" element={<ClientsPage />} />
+                    <Route path="/daily-reports" element={<DailyReportsPage />} />
+                  </Routes>
+                </div>
+              </ProtectedRoute>
+            } />
           </Routes>
-        </div>
-      </Router>
-    </div>
+        </Router>
+      </div>
+    </AuthProvider>
   );
 }
 
