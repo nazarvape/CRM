@@ -501,7 +501,12 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
     e.preventDefault();
     const submitData = {
       ...formData,
-      last_contact_date: formData.last_contact_date ? format(formData.last_contact_date, 'yyyy-MM-dd') : null
+      last_contact_date: formData.last_contact_date ? format(formData.last_contact_date, 'yyyy-MM-dd') : null,
+      expected_order_sets: formData.expected_order_sets === '' ? 0 : Number(formData.expected_order_sets),
+      expected_order_amount: formData.expected_order_amount === '' ? 0 : Number(formData.expected_order_amount),
+      sets_ordered_this_month: formData.sets_ordered_this_month === '' ? 0 : Number(formData.sets_ordered_this_month),
+      amount_this_month: formData.amount_this_month === '' ? 0 : Number(formData.amount_this_month),
+      debt: formData.debt === '' ? 0 : Number(formData.debt)
     };
     onSave(submitData);
     setOpen(false);
