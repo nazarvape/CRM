@@ -418,9 +418,10 @@ async def get_client_statistics(current_user: User = Depends(get_current_user)):
     return stats
 
 @api_router.get("/clients/summary")
-async def get_client_summary():
-    # Aggregate pipeline to calculate totals
+async def get_client_summary(current_user: User = Depends(get_current_user)):
+    # Aggregate pipeline to calculate totals for current user
     pipeline = [
+        {"$match": {"user_id": current_user.id}},
         {
             "$group": {
                 "_id": None,
