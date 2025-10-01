@@ -61,6 +61,27 @@ def parse_from_mongo(item):
     return item
 
 # Models
+class User(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    email: str
+    full_name: str
+    hashed_password: str
+    is_active: bool = True
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class UserCreate(BaseModel):
+    email: str
+    full_name: str
+    password: str
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    user: dict
 class ClientStatusType(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     name: str
