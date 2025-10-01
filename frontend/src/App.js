@@ -291,6 +291,15 @@ const ClientsPage = () => {
             <div className="text-xs text-gray-500">Не відповідають</div>
           </CardContent>
         </Card>
+        
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('debt', actionStatusTypes)}` }}>
+          <CardContent className="p-4">
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('debt', actionStatusTypes) }}>
+              {statistics.has_debt || 0}
+            </div>
+            <div className="text-xs text-gray-500">Мають борг</div>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Controls */}
