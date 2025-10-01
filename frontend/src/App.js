@@ -1907,6 +1907,36 @@ const ReportDialog = ({ report, onSave, onCancel, trigger }) => {
   );
 };
 
+// App Content Component (needs to be inside Router)
+const AppContent = () => {
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <AuthPage />;
+  }
+
+  return (
+    <>
+      <Navigation />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+        <Routes>
+          <Route path="/" element={<ClientsPage />} />
+          <Route path="/daily-reports" element={<DailyReportsPage />} />
+          <Route path="/auth" element={<Navigate to="/" replace />} />
+        </Routes>
+      </div>
+    </>
+  );
+};
+
 // Main App Component
 function App() {
   return (
@@ -1915,17 +1945,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/*" element={
-              <ProtectedRoute>
-                <Navigation />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-                  <Routes>
-                    <Route path="/" element={<ClientsPage />} />
-                    <Route path="/daily-reports" element={<DailyReportsPage />} />
-                  </Routes>
-                </div>
-              </ProtectedRoute>
-            } />
+            <Route path="/*" element={<AppContent />} />
           </Routes>
         </Router>
       </div>
