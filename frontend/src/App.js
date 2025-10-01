@@ -310,6 +310,7 @@ const ClientsPage = () => {
               <SelectItem value="notified_about_promotion">Сповістив про акцію</SelectItem>
               <SelectItem value="has_additional_questions">Має питання</SelectItem>
               <SelectItem value="not_answering">Не відповідає</SelectItem>
+              <SelectItem value="has_debt">Має борг</SelectItem>
             </SelectContent>
           </Select>
         </div>
