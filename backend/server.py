@@ -288,7 +288,7 @@ async def login(user_login: UserLogin):
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Incorrect email or password"
+            detail="Невірний email або пароль"
         )
     
     user_obj = User(**parse_from_mongo(user))
