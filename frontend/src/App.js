@@ -739,11 +739,11 @@ const StatusTypeManagement = ({
                 onChange={(e) => setNewStatusType({...newStatusType, name: e.target.value})}
                 data-testid="status-type-name"
               />
-              <Input
+              <input
                 type="color"
                 value={newStatusType.color}
                 onChange={(e) => setNewStatusType({...newStatusType, color: e.target.value})}
-                className="w-20"
+                className="w-20 h-10 border border-gray-300 rounded-md cursor-pointer"
                 data-testid="status-type-color"
               />
               <Button onClick={handleSave} disabled={!newStatusType.name.trim()}>
