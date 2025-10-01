@@ -387,7 +387,7 @@ const ClientsPage = () => {
                             return (
                               <Badge 
                                 key={key} 
-                                style={{ backgroundColor: getStatusColor(key), color: 'white' }}
+                                style={{ backgroundColor: getStatusColor(key, actionStatusTypes), color: 'white' }}
                                 className="text-xs"
                               >
                                 {getStatusName(key)}
