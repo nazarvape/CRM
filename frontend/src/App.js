@@ -282,12 +282,12 @@ const ClientsPage = () => {
       <div className="flex flex-wrap gap-4 items-center justify-between">
         <div className="flex gap-2 items-center">
           <Filter className="w-4 h-4 text-gray-500" />
-          <Select value={filterStatus} onValueChange={setFilterStatus}>
+          <Select value={filterStatus || undefined} onValueChange={setFilterStatus}>
             <SelectTrigger className="w-48">
               <SelectValue placeholder="Фільтр по статусу" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Всі статуси</SelectItem>
+              <SelectItem value="all">Всі статуси</SelectItem>
               <SelectItem value="made_order">Зробив замовлення</SelectItem>
               <SelectItem value="planning_order">Планує замовлення</SelectItem>
               <SelectItem value="need_callback">Передзвонити</SelectItem>
