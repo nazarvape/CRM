@@ -490,8 +490,8 @@ async def create_client(input: ClientCreate, current_user: User = Depends(get_cu
     return client_obj
 
 @api_router.get("/clients/{client_id}", response_model=Client)
-async def get_client(client_id: str):
-    client = await db.clients.find_one({"id": client_id})
+async def get_client(client_id: str, current_user: User = Depends(get_current_user)):
+    client = await db.clients.find_one({"id": client_id, "user_id": current_user.id})
     if not client:
         raise HTTPException(status_code=404, detail="Client not found")
     return Client(**parse_from_mongo(client))
