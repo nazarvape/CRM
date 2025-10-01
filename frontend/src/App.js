@@ -229,9 +229,9 @@ const ClientsPage = () => {
           </CardContent>
         </Card>
         
-        <Card style={{ borderLeft: `4px solid ${getStatusColor('made_order')}` }}>
+        <Card style={{ borderLeft: `4px solid ${getStatusColor('made_order', actionStatusTypes)}` }}>
           <CardContent className="p-4">
-            <div className="text-2xl font-bold" style={{ color: getStatusColor('made_order') }}>
+            <div className="text-2xl font-bold" style={{ color: getStatusColor('made_order', actionStatusTypes) }}>
               {statistics.made_order || 0}
             </div>
             <div className="text-xs text-gray-500">Зробили замовлення</div>
