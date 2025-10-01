@@ -589,20 +589,31 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
               <Label htmlFor="expected_order_sets">Очікувані набори</Label>
               <Input
                 id="expected_order_sets"
-                type="number"
-                value={formData.expected_order_sets}
-                onChange={(e) => setFormData({...formData, expected_order_sets: parseInt(e.target.value) || 0})}
+                type="text"
+                value={formData.expected_order_sets || ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || /^\d+$/.test(value)) {
+                    setFormData({...formData, expected_order_sets: value === '' ? 0 : parseInt(value)});
+                  }
+                }}
+                placeholder="0"
                 data-testid="client-expected-sets"
               />
             </div>
             <div>
-              <Label htmlFor="expected_order_amount">Очікувана сума</Label>
+              <Label htmlFor="expected_order_amount">Очікувана сума (₴)</Label>
               <Input
                 id="expected_order_amount"
-                type="number"
-                step="0.01"
-                value={formData.expected_order_amount}
-                onChange={(e) => setFormData({...formData, expected_order_amount: parseFloat(e.target.value) || 0})}
+                type="text"
+                value={formData.expected_order_amount || ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || /^\d*\.?\d*$/.test(value)) {
+                    setFormData({...formData, expected_order_amount: value === '' ? 0 : parseFloat(value) || 0});
+                  }
+                }}
+                placeholder="0.00"
                 data-testid="client-expected-amount"
               />
             </div>
@@ -610,20 +621,31 @@ const ClientDialog = ({ client, statusTypes, actionStatusTypes, onSave, onCancel
               <Label htmlFor="sets_ordered_this_month">Наборів в цьому місяці</Label>
               <Input
                 id="sets_ordered_this_month"
-                type="number"
-                value={formData.sets_ordered_this_month}
-                onChange={(e) => setFormData({...formData, sets_ordered_this_month: parseInt(e.target.value) || 0})}
+                type="text"
+                value={formData.sets_ordered_this_month || ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || /^\d+$/.test(value)) {
+                    setFormData({...formData, sets_ordered_this_month: value === '' ? 0 : parseInt(value)});
+                  }
+                }}
+                placeholder="0"
                 data-testid="client-sets-this-month"
               />
             </div>
             <div>
-              <Label htmlFor="amount_this_month">Сума в цьому місяці</Label>
+              <Label htmlFor="amount_this_month">Сума в цьому місяці (₴)</Label>
               <Input
                 id="amount_this_month"
-                type="number"
-                step="0.01"
-                value={formData.amount_this_month}
-                onChange={(e) => setFormData({...formData, amount_this_month: parseFloat(e.target.value) || 0})}
+                type="text"
+                value={formData.amount_this_month || ''}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (value === '' || /^\d*\.?\d*$/.test(value)) {
+                    setFormData({...formData, amount_this_month: value === '' ? 0 : parseFloat(value) || 0});
+                  }
+                }}
+                placeholder="0.00"
                 data-testid="client-amount-this-month"
               />
             </div>
