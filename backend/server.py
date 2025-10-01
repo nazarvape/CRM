@@ -329,6 +329,16 @@ async def delete_client(client_id: str):
         raise HTTPException(status_code=404, detail="Client not found")
     return {"message": "Client deleted"}
 
+@api_router.patch("/clients/{client_id}/comment")
+async def update_client_comment(client_id: str, comment: dict):
+    result = await db.clients.update_one(
+        {"id": client_id},
+        {"$set": {"comment": comment.get("comment", "")}}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Client not found")
+    return {"message": "Comment updated"}
+
 # Daily Reports Routes
 @api_router.get("/daily-reports", response_model=List[DailyReport])
 async def get_daily_reports():
