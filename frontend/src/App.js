@@ -412,6 +412,9 @@ const ClientsPage = () => {
                       }
                     </TableCell>
                     <TableCell>
+                      <CommentCell client={client} onUpdate={loadData} />
+                    </TableCell>
+                    <TableCell>
                       <div className="flex gap-2">
                         <Button
                           variant="ghost"
