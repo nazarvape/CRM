@@ -114,6 +114,7 @@ const ClientsPage = () => {
   const [statusTypes, setStatusTypes] = useState([]);
   const [actionStatusTypes, setActionStatusTypes] = useState([]);
   const [statistics, setStatistics] = useState({});
+  const [summary, setSummary] = useState({});
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('');
   const [editingClient, setEditingClient] = useState(null);
