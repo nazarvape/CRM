@@ -285,6 +285,8 @@ async def get_clients(status_filter: Optional[str] = None):
             query["action_status.not_answering"] = True
         elif status_filter == "planning_order":
             query["action_status.planning_order"] = True
+        elif status_filter == "has_debt":
+            query["debt"] = {"$gt": 0}
     
     clients = await db.clients.find(query).to_list(1000)
     return [Client(**parse_from_mongo(client)) for client in clients]
