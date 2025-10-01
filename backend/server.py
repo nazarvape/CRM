@@ -214,6 +214,40 @@ async def delete_client_status_type(status_id: str):
         raise HTTPException(status_code=404, detail="Status type not found")
     return {"message": "Status type deleted"}
 
+# Action Status Types Routes
+@api_router.get("/action-status-types", response_model=List[ActionStatusType])
+async def get_action_status_types():
+    status_types = await db.action_status_types.find().to_list(1000)
+    return [ActionStatusType(**parse_from_mongo(st)) for st in status_types]
+
+@api_router.post("/action-status-types", response_model=ActionStatusType)
+async def create_action_status_type(input: ActionStatusTypeCreate):
+    status_dict = input.dict()
+    status_obj = ActionStatusType(**status_dict)
+    status_data = prepare_for_mongo(status_obj.dict())
+    await db.action_status_types.insert_one(status_data)
+    return status_obj
+
+@api_router.put("/action-status-types/{status_id}", response_model=ActionStatusType)
+async def update_action_status_type(status_id: str, input: ActionStatusTypeCreate):
+    status_dict = input.dict()
+    result = await db.action_status_types.update_one(
+        {"id": status_id},
+        {"$set": prepare_for_mongo(status_dict)}
+    )
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Action status type not found")
+    
+    updated_status = await db.action_status_types.find_one({"id": status_id})
+    return ActionStatusType(**parse_from_mongo(updated_status))
+
+@api_router.delete("/action-status-types/{status_id}")
+async def delete_action_status_type(status_id: str):
+    result = await db.action_status_types.delete_one({"id": status_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Action status type not found")
+    return {"message": "Action status type deleted"}
+
 # Clients Routes
 @api_router.get("/clients/statistics")
 async def get_client_statistics():
