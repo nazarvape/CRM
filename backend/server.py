@@ -300,6 +300,13 @@ async def create_daily_report(input: DailyReportCreate):
     await db.daily_reports.insert_one(report_data)
     return report_obj
 
+@api_router.get("/daily-reports/{report_id}", response_model=DailyReport)
+async def get_daily_report(report_id: str):
+    report = await db.daily_reports.find_one({"id": report_id})
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return DailyReport(**parse_from_mongo(report))
+
 @api_router.put("/daily-reports/{report_id}", response_model=DailyReport)
 async def update_daily_report(report_id: str, input: DailyReportUpdate):
     report_dict = {k: v for k, v in input.dict().items() if v is not None}
