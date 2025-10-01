@@ -399,19 +399,20 @@ async def delete_action_status_type(status_id: str):
 
 # Clients Routes
 @api_router.get("/clients/statistics")
-async def get_client_statistics():
-    total_clients = await db.clients.count_documents({})
+async def get_client_statistics(current_user: User = Depends(get_current_user)):
+    user_filter = {"user_id": current_user.id}
+    total_clients = await db.clients.count_documents(user_filter)
     
     stats = {
         "total_clients": total_clients,
-        "made_order": await db.clients.count_documents({"action_status.made_order": True}),
-        "completed_survey": await db.clients.count_documents({"action_status.completed_survey": True}),
-        "notified_about_promotion": await db.clients.count_documents({"action_status.notified_about_promotion": True}),
-        "has_additional_questions": await db.clients.count_documents({"action_status.has_additional_questions": True}),
-        "need_callback": await db.clients.count_documents({"action_status.need_callback": True}),
-        "not_answering": await db.clients.count_documents({"action_status.not_answering": True}),
-        "planning_order": await db.clients.count_documents({"action_status.planning_order": True}),
-        "has_debt": await db.clients.count_documents({"debt": {"$gt": 0}}),
+        "made_order": await db.clients.count_documents({**user_filter, "action_status.made_order": True}),
+        "completed_survey": await db.clients.count_documents({**user_filter, "action_status.completed_survey": True}),
+        "notified_about_promotion": await db.clients.count_documents({**user_filter, "action_status.notified_about_promotion": True}),
+        "has_additional_questions": await db.clients.count_documents({**user_filter, "action_status.has_additional_questions": True}),
+        "need_callback": await db.clients.count_documents({**user_filter, "action_status.need_callback": True}),
+        "not_answering": await db.clients.count_documents({**user_filter, "action_status.not_answering": True}),
+        "planning_order": await db.clients.count_documents({**user_filter, "action_status.planning_order": True}),
+        "has_debt": await db.clients.count_documents({**user_filter, "debt": {"$gt": 0}}),
     }
     
     return stats
