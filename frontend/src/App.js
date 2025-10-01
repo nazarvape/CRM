@@ -424,12 +424,27 @@ const ClientsPage = () => {
                       <CommentCell client={client} onUpdate={loadData} />
                     </TableCell>
                     <TableCell>
-                      <div className="flex gap-2">
+                      <div className="flex gap-1">
+                        {client.crm_link && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => window.open(client.crm_link, '_blank')}
+                            className="text-blue-600 hover:text-blue-800"
+                            data-testid={`crm-link-${client.id}`}
+                            title="Відкрити CRM посилання"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                          </Button>
+                        )}
                         <Button
                           variant="ghost"
                           size="sm"
                           onClick={() => setEditingClient(client)}
                           data-testid={`edit-client-${client.id}`}
+                          title="Редагувати клієнта"
                         >
                           <Edit className="w-4 h-4" />
                         </Button>
@@ -438,6 +453,7 @@ const ClientsPage = () => {
                           size="sm"
                           onClick={() => handleDeleteClient(client.id)}
                           data-testid={`delete-client-${client.id}`}
+                          title="Видалити клієнта"
                         >
                           <Trash2 className="w-4 h-4" />
                         </Button>
