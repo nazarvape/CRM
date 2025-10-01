@@ -175,6 +175,13 @@ async def create_client_status_type(input: ClientStatusTypeCreate):
     await db.client_status_types.insert_one(status_data)
     return status_obj
 
+@api_router.get("/client-status-types/{status_id}", response_model=ClientStatusType)
+async def get_client_status_type(status_id: str):
+    status_type = await db.client_status_types.find_one({"id": status_id})
+    if not status_type:
+        raise HTTPException(status_code=404, detail="Status type not found")
+    return ClientStatusType(**parse_from_mongo(status_type))
+
 @api_router.put("/client-status-types/{status_id}", response_model=ClientStatusType)
 async def update_client_status_type(status_id: str, input: ClientStatusTypeCreate):
     status_dict = input.dict()
