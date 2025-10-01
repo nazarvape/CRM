@@ -468,11 +468,14 @@ const ClientDialog = ({ client, statusTypes, onSave, onCancel, trigger }) => {
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto" aria-describedby="client-form-description">
         <DialogHeader>
           <DialogTitle>
             {client ? 'Редагувати клієнта' : 'Додати клієнта'}
           </DialogTitle>
+          <div id="client-form-description" className="text-sm text-gray-600">
+            {client ? 'Редагуйте інформацію про клієнта' : 'Заповніть форму для додавання нового клієнта'}
+          </div>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-4">
