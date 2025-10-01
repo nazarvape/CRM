@@ -513,8 +513,8 @@ async def update_client(client_id: str, input: ClientUpdate, current_user: User 
     return Client(**parse_from_mongo(updated_client))
 
 @api_router.delete("/clients/{client_id}")
-async def delete_client(client_id: str):
-    result = await db.clients.delete_one({"id": client_id})
+async def delete_client(client_id: str, current_user: User = Depends(get_current_user)):
+    result = await db.clients.delete_one({"id": client_id, "user_id": current_user.id})
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Client not found")
     return {"message": "Client deleted"}
