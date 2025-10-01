@@ -481,9 +481,9 @@ async def get_clients(status_filter: Optional[str] = None, current_user: User = 
     return [Client(**parse_from_mongo(client)) for client in clients]
 
 @api_router.post("/clients", response_model=Client)
-async def create_client(input: ClientCreate):
+async def create_client(input: ClientCreate, current_user: User = Depends(get_current_user)):
     client_dict = input.dict()
-    client_obj = Client(**client_dict)
+    client_obj = Client(**client_dict, user_id=current_user.id)
     client_data = prepare_for_mongo(client_obj.dict())
     await db.clients.insert_one(client_data)
     return client_obj
