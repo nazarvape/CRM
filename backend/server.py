@@ -249,6 +249,79 @@ class DailyReportUpdate(BaseModel):
     clients_no_order: Optional[int] = None
     comment: Optional[str] = None
 
+# Auth Routes
+@api_router.post("/register", response_model=Token)
+async def register(user: UserCreate):
+    # Check if user already exists
+    existing_user = await db.users.find_one({"email": user.email})
+    if existing_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+    
+    # Create new user
+    hashed_password = get_password_hash(user.password)
+    user_dict = user.dict()
+    user_dict.pop('password')
+    user_obj = User(**user_dict, hashed_password=hashed_password)
+    user_data = prepare_for_mongo(user_obj.dict())
+    await db.users.insert_one(user_data)
+    
+    # Create access token
+    access_token = create_access_token(data={"sub": user_obj.id})
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user_obj.id,
+            "email": user_obj.email,
+            "full_name": user_obj.full_name
+        }
+    }
+
+@api_router.post("/login", response_model=Token)
+async def login(user_login: UserLogin):
+    # Find user
+    user = await db.users.find_one({"email": user_login.email})
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password"
+        )
+    
+    user_obj = User(**parse_from_mongo(user))
+    
+    # Verify password
+    if not verify_password(user_login.password, user_obj.hashed_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password"
+        )
+    
+    # Create access token
+    access_token = create_access_token(data={"sub": user_obj.id})
+    
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user_obj.id,
+            "email": user_obj.email,
+            "full_name": user_obj.full_name
+        }
+    }
+
+@api_router.get("/me")
+async def get_current_user_info(current_user: User = Depends(get_current_user)):
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "full_name": current_user.full_name,
+        "is_active": current_user.is_active
+    }
+
 # Client Status Types Routes
 @api_router.get("/client-status-types", response_model=List[ClientStatusType])
 async def get_client_status_types():
