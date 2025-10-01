@@ -358,6 +358,7 @@ const ClientsPage = () => {
                   <TableHead>Борг</TableHead>
                   <TableHead>Статуси дій</TableHead>
                   <TableHead>Дата контакту</TableHead>
+                  <TableHead>Коментар</TableHead>
                   <TableHead>Дії</TableHead>
                 </TableRow>
               </TableHeader>
