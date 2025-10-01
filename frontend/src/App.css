@@ -196,3 +196,11 @@ h1, h2, h3, h4, h5, h6 {
               linear-gradient(45deg, #e5e7eb, #d1d5db) border-box;
   border: 1px solid transparent;
 }
+
+/* Text line clamp */
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
