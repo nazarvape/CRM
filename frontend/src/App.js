@@ -141,6 +141,7 @@ const ClientsPage = () => {
       setStatusTypes(statusTypesRes.data);
       setActionStatusTypes(actionStatusTypesRes.data);
       setStatistics(statsRes.data);
+      setSummary(summaryRes.data);
     } catch (error) {
       console.error('Error loading data:', error);
       toast.error('Помилка завантаження даних');
