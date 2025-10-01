@@ -497,19 +497,19 @@ async def get_client(client_id: str, current_user: User = Depends(get_current_us
     return Client(**parse_from_mongo(client))
 
 @api_router.put("/clients/{client_id}", response_model=Client)
-async def update_client(client_id: str, input: ClientUpdate):
+async def update_client(client_id: str, input: ClientUpdate, current_user: User = Depends(get_current_user)):
     client_dict = {k: v for k, v in input.dict().items() if v is not None}
     if not client_dict:
         raise HTTPException(status_code=400, detail="No fields to update")
     
     result = await db.clients.update_one(
-        {"id": client_id},
+        {"id": client_id, "user_id": current_user.id},
         {"$set": prepare_for_mongo(client_dict)}
     )
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Client not found")
     
-    updated_client = await db.clients.find_one({"id": client_id})
+    updated_client = await db.clients.find_one({"id": client_id, "user_id": current_user.id})
     return Client(**parse_from_mongo(updated_client))
 
 @api_router.delete("/clients/{client_id}")
