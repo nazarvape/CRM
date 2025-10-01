@@ -305,6 +305,79 @@ const ClientsPage = () => {
         </Card>
       </div>
 
+      {/* Summary Statistics */}
+      <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-200">
+        <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
+          <TrendingUp className="w-5 h-5 mr-2 text-blue-600" />
+          Загальна статистика замовлень
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="text-2xl font-bold text-green-600">
+              {summary.total_expected_sets || 0}
+            </div>
+            <div className="text-sm text-gray-600">Планується наборів</div>
+            <div className="text-xs text-gray-500 mt-1">
+              {(summary.total_expected_amount || 0).toLocaleString('uk-UA')} ₴
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="text-2xl font-bold text-blue-600">
+              {summary.total_ordered_sets || 0}
+            </div>
+            <div className="text-sm text-gray-600">Замовлено наборів</div>
+            <div className="text-xs text-gray-500 mt-1">
+              {(summary.total_ordered_amount || 0).toLocaleString('uk-UA')} ₴
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="text-2xl font-bold text-amber-600">
+              {((summary.total_expected_amount || 0) - (summary.total_ordered_amount || 0)).toLocaleString('uk-UA')} ₴
+            </div>
+            <div className="text-sm text-gray-600">Залишилось планів</div>
+            <div className="text-xs text-gray-500 mt-1">
+              {((summary.total_expected_sets || 0) - (summary.total_ordered_sets || 0))} наборів
+            </div>
+          </div>
+          
+          <div className="bg-white rounded-lg p-4 shadow-sm">
+            <div className="text-2xl font-bold text-red-600">
+              {(summary.total_debt || 0).toLocaleString('uk-UA')} ₴
+            </div>
+            <div className="text-sm text-gray-600">Загальний борг</div>
+            <div className="text-xs text-gray-500 mt-1">
+              {statistics.has_debt || 0} клієнтів
+            </div>
+          </div>
+        </div>
+        
+        {/* Progress bar */}
+        <div className="mt-4">
+          <div className="flex justify-between text-sm text-gray-600 mb-2">
+            <span>Прогрес виконання планів</span>
+            <span>
+              {summary.total_expected_amount > 0 
+                ? Math.round((summary.total_ordered_amount / summary.total_expected_amount) * 100)
+                : 0
+              }%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div 
+              className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-300"
+              style={{
+                width: `${summary.total_expected_amount > 0 
+                  ? Math.min((summary.total_ordered_amount / summary.total_expected_amount) * 100, 100)
+                  : 0
+                }%`
+              }}
+            ></div>
+          </div>
+        </div>
+      </div>
+
       {/* Controls */}
       <div className="flex flex-wrap gap-4 items-center justify-between">
         <div className="flex gap-2 items-center">
