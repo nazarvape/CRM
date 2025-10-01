@@ -100,6 +100,7 @@ const Navigation = () => {
 const ClientsPage = () => {
   const [clients, setClients] = useState([]);
   const [statusTypes, setStatusTypes] = useState([]);
+  const [actionStatusTypes, setActionStatusTypes] = useState([]);
   const [statistics, setStatistics] = useState({});
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('');
