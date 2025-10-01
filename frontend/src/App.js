@@ -324,9 +324,14 @@ const ClientsPage = () => {
             onSave={handleSaveStatusType}
             onDelete={handleDeleteStatusType}
           />
+          <ActionStatusManagement 
+            actionStatusTypes={actionStatusTypes}
+            onSave={() => loadData()}
+          />
           <ClientDialog 
             client={editingClient}
             statusTypes={statusTypes}
+            actionStatusTypes={actionStatusTypes}
             onSave={handleSaveClient}
             onCancel={() => setEditingClient(null)}
             trigger={
